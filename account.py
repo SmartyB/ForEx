@@ -1,10 +1,9 @@
-# from trading_plan import trading_plan
-
 import lib.connections          as connections
 import lib.helpers              as helpers
+import environment.get         as env_get
 
 import lib, instrument, news
-import trading_plan, selector
+import selector
 import time, threading, sqlite3
 import os
 
@@ -15,9 +14,10 @@ class Account(lib.Event, lib.Stream):
     Account contains connection to Oanda. Also contains methods for getting
     the account balance, orders and instruments.
     '''
-    def __init__(self):
+    def __init__(self, env):
+        env_get.set_environment(env)
         self.start_time    = helpers.epochToRfc3339(time.time())
-        self.connections   = connections
+        self.connections   = env_get.get_connections()
         self.__instruments = []
 
         self.start_trading()
@@ -28,7 +28,7 @@ class Account(lib.Event, lib.Stream):
         Usefull for when connection breaks and we want to restart
         '''
         self.news = news.News()
-        for instrument_plan in trading_plan.plan:
+        for instrument_plan in env_get.get_trading_plan():
             ins = instrument.Instrument(self, instrument_plan)
             self.__instruments.append(ins)
 
@@ -114,7 +114,7 @@ class Account(lib.Event, lib.Stream):
     def no(self): return self.num_orders()
 
 # initiate
-a = Account()
+a = Account(0)
 
 # set some variables for easy access
 i = a.ins('eur_usd')
