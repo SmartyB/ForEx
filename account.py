@@ -1,22 +1,18 @@
-import lib.helpers              as helpers
-import environment.get         as env_get
+# dependancies
+import lib, instrument, news, selector
+import environment.get         as env
 
-import lib, instrument, news
-import selector
-import time, threading, sqlite3
-import os
-
-from lib.connections import *
+import time, threading, sqlite3, os
 
 class Account(lib.Event, lib.Stream):
     '''
     Account contains connection to Oanda. Also contains methods for getting
     the account balance, orders and instruments.
     '''
-    def __init__(self, env):
-        env_get.set_environment(env)
-        self.start_time    = helpers.epochToRfc3339(time.time())
-        self.connections   = env_get.get_connections()
+    def __init__(self):
+        env.set_environment(0)
+        self.start_time    = lib.helpers.epochToRfc3339(time.time())
+        self.connections   = env.get_connections()
         self.__instruments = []
 
         self.start_trading()
@@ -27,7 +23,7 @@ class Account(lib.Event, lib.Stream):
         Usefull for when connection breaks and we want to restart
         '''
         self.news = news.News()
-        for instrument_plan in env_get.get_trading_plan():
+        for instrument_plan in env.get_trading_plan():
             ins = instrument.Instrument(self, instrument_plan)
             self.__instruments.append(ins)
 
@@ -56,19 +52,19 @@ class Account(lib.Event, lib.Stream):
         '''
         Returns an OrderSelector instance containing all orders in account
         '''
-        orderSelector = selector.OrderSelector([])
+        order_selector = selector.OrderSelector([])
         for instrument in self.__instruments:
-            orderSelector += instrument.orders()
-        return orderSelector
+            order_selector += instrument.orders()
+        return order_selector
 
     def trades(self):
         '''
         Returns a TradeSelector instance containing all trades in account
         '''
-        tradeSelector = selector.TradeSelector([])
+        trade_selector = selector.TradeSelector([])
         for instrument in self.__instruments:
-            tradeSelector += instrument.trades()
-        return tradeSelector
+            trade_selector += instrument.trades()
+        return trade_selector
 
     def active_instruments(self):
         '''
@@ -85,11 +81,12 @@ class Account(lib.Event, lib.Stream):
         Returns available balance in our (sub)account. Returns 0 if it excepts
         '''
         try:
-            return float(self.connections[thread].get_credentials()['balance'])
+            balance = self.connections[thread].get_credentials()['balance']
+            return float(balance)
         except:
             return 0.
 
-    def stop(self):
+    def exit(self):
         '''
         Controlled stopping. Saves all Trade and Order instances to db, then
         forces exit. This has to be forced because of threading.Timer instances
@@ -113,7 +110,7 @@ class Account(lib.Event, lib.Stream):
     def no(self): return self.num_orders()
 
 # initiate
-a = Account(0)
+a = Account()
 
 # set some variables for easy access
 i = a.ins('eur_usd')

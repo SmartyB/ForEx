@@ -26,32 +26,32 @@ class Strategy(lib.Event, lib.Scheduler):
         if not self.order_news_allowed():
             return False
 
-        if units < 1:
-            return
+        units  = int(round(units))
+        pair   = self.instrument.pair
+        expiry = lib.helpers.epochToRfc3339(time.time() + expiry)
 
-        if entry:
-            entry = round(entry, self.instrument.precision)
-        if stopLoss:
-            stopLoss = round(stopLoss, self.instrument.precision)
-        if takeProfit:
-            takeProfit = round(takeProfit, self.instrument.precision)
-        if trailingStop:
-            trailingStop = round(trailingStop, self.instrument.precision)
+        precision = self.instrument.precision
+        if entry: entry = round(entry, precision)
+        if stopLoss: stopLoss = round(stopLoss, precision)
+        if takeProfit: takeProfit = round(takeProfit, precision)
+        if trailingStop: trailingStop = round(trailingStop, precision)
 
         dOrder = {
-            'instrument'    : self.instrument.pair,
+            'instrument'    : pair,
             'side'          : side,
             'type'          : type,
-            'units'         : int(round(units)),
+            'units'         : units,
             'price'         : entry,
             'stopLoss'      : stopLoss,
             'takeProfit'    : takeProfit,
             'trailingStop'  : trailingStop,
-            'expiry'        : lib.helpers.epochToRfc3339(time.time() + expiry),
+            'expiry'        : expiry,
         }
         try:
             order = self.con.create_order(lib.oanda.Order(**dOrder))
-            self._orders.append(position.Order(self, order['orderOpened']['id'], riskClosePips=riskClosePips))
+            id = order['orderOpened']['id']
+            order = position.Order(self, id, riskClosePips=riskClosePips)
+            self._orders.append(order)
             return order
         except:
             print('error creating order')

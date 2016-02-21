@@ -45,8 +45,8 @@ class News(Event):
 
         db.commit()
 
-        # self.__timer = threading.Timer(3600, self.getNewsItems)
-        # self.__timer.start()
+        self.__timer = threading.Timer(3600, self.getNewsItems)
+        self.__timer.start()
 
     def next(self, pair, minImportance):
         currencies = pair.lower().split("_")

@@ -1,9 +1,7 @@
+# dependancies
 import math, sqlite3
 
-import lib, position, selector
-from chart.chart import Chart
-
-import lib.database
+import lib, position, selector, chart
 
 class Instrument(lib.Event):
     def __init__(self, account, instrument):
@@ -56,26 +54,26 @@ class Instrument(lib.Event):
             # asking for forgiveness is better than asking for permission
             return self.__charts[gran]
         except KeyError:
-            self.__charts[gran] = Chart(self, gran)
+            self.__charts[gran] = chart.Chart(self, gran)
             return self.__charts[gran]
 
     def orders(self):
         '''
         Returns an OrderSelector instance containing all orders in the instrument
         '''
-        orderSelector = selector.OrderSelector([])
+        order_selector = selector.OrderSelector([])
         for strategy in self.__strategies:
-            orderSelector += strategy.orders()
-        return orderSelector
+            order_selector += strategy.orders()
+        return order_selector
 
     def trades(self):
         '''
         Returns a TradeSelector instance containing all trades in the intrument
         '''
-        tradeSelector = selector.TradeSelector([])
+        trade_selector = selector.TradeSelector([])
         for strategy in self.__strategies:
-            tradeSelector += strategy.trades()
-        return tradeSelector
+            trade_selector += strategy.trades()
+        return trade_selector
 
     def strategies(self):
         '''
