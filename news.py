@@ -23,7 +23,7 @@ class News(Event):
         feed = downloadFile("http://www.roboforex.com/analytics/economic-calendar/rss/")
         feed = BeautifulSoup(feed, "html.parser")
 
-        db = sqlite3.connect('database/db.db')
+        db = sqlite3.connect('../database/testing.db')
         c = db.cursor()
         for item in feed.findAll("item"):
             time = parser.parse(item.pubdate.string)
@@ -50,7 +50,7 @@ class News(Event):
 
     def next(self, pair, minImportance):
         currencies = pair.lower().split("_")
-        db = sqlite3.connect('database/db.db')
+        db = sqlite3.connect('../database/testing.db')
         c = db.cursor()
         q = "SELECT `time` FROM `news` WHERE `time` >= {0} AND `currency` IN ('{1}','{2}') AND `importance` >= {3} ORDER BY `time` ASC".format(int(time.time()), currencies[0], currencies[1], minImportance)
         c.execute("SELECT `time` FROM `news` WHERE `time` >= {0} AND `currency` IN ('{1}','{2}') AND `importance` >= {3} ORDER BY `time` ASC".format(int(time.time()), currencies[0], currencies[1], minImportance))
@@ -61,7 +61,7 @@ class News(Event):
 
     def previous(self, pair, minImportance):
         currencies = pair.lower().split("_")
-        db = sqlite3.connect('database/db.db')
+        db = sqlite3.connect('../database/testing.db')
         c = db.cursor()
         c.execute("SELECT `time` FROM `news` WHERE `time` <= {0} AND `currency` IN ('{1}','{2}') AND `importance` >= {3} ORDER BY `time` DESC".format(int(time.time()), currencies[0], currencies[1], minImportance))
         try:

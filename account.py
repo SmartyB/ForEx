@@ -1,4 +1,3 @@
-import lib.connections          as connections
 import lib.helpers              as helpers
 import environment.get         as env_get
 

@@ -20,7 +20,7 @@ class Strategy(lib.Event, lib.Scheduler):
     def begin(self):
         pass
 
-    def createOrder(self, side, units, entry=None, stopLoss=None, takeProfit=None, trailingStop=None, expiry=10800, type='stop', riskClosePips=None):
+    def createOrder(self, side, units, entry=None, stopLoss=None, takeProfit=None, trailingStop=None, expiry=10800, type='limit', riskClosePips=None):
         if not self.active:
             return False
         if not self.order_news_allowed():

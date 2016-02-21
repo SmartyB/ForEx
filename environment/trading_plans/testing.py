@@ -29,7 +29,7 @@ plan = [
                 },
                 {
                     'name'                  : strategies.SmartyStratRev,
-                    'thread'                : 't1',
+                    'thread'                : 't2',
                     'store'                 : True,
                     'risk'                  : 1,
                     'chart'                 : 'M5',
@@ -81,7 +81,7 @@ plan = [
                 },
                 {
                     'name'                  : strategies.SmartyStratRev,
-                    'thread'                : 't1',
+                    'thread'                : 't2',
                     'store'                 : True,
                     'risk'                  : 1,
                     'chart'                 : 'M5',
@@ -133,7 +133,7 @@ plan = [
                 },
                 {
                     'name'                  : strategies.SmartyStratRev,
-                    'thread'                : 't1',
+                    'thread'                : 't2',
                     'store'                 : True,
                     'risk'                  : 1,
                     'chart'                 : 'M5',
@@ -185,7 +185,7 @@ plan = [
                 },
                 {
                     'name'                  : strategies.SmartyStratRev,
-                    'thread'                : 't1',
+                    'thread'                : 't2',
                     'store'                 : True,
                     'risk'                  : 1,
                     'chart'                 : 'M5',
@@ -237,7 +237,7 @@ plan = [
                 },
                 {
                     'name'                  : strategies.SmartyStratRev,
-                    'thread'                : 't1',
+                    'thread'                : 't2',
                     'store'                 : True,
                     'risk'                  : 1,
                     'chart'                 : 'M5',
@@ -289,7 +289,7 @@ plan = [
                 },
                 {
                     'name'                  : strategies.SmartyStratRev,
-                    'thread'                : 't1',
+                    'thread'                : 't2',
                     'store'                 : True,
                     'risk'                  : 1,
                     'chart'                 : 'M5',
@@ -341,7 +341,7 @@ plan = [
                 },
                 {
                     'name'                  : strategies.SmartyStratRev,
-                    'thread'                : 't1',
+                    'thread'                : 't2',
                     'store'                 : True,
                     'risk'                  : 1,
                     'chart'                 : 'M5',
@@ -393,7 +393,7 @@ plan = [
                 },
                 {
                     'name'                  : strategies.SmartyStratRev,
-                    'thread'                : 't1',
+                    'thread'                : 't2',
                     'store'                 : True,
                     'risk'                  : 1,
                     'chart'                 : 'M5',

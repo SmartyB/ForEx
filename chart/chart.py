@@ -11,7 +11,6 @@ import time
 import copy
 import time
 
-
 class Chart(Event):
     def __init__(self, instrument, granularity):
         self.instrument   = instrument

@@ -1,6 +1,6 @@
 import lib
 import sqlite3, datetime, pytz, time
-from database.database import DataBase
+from lib.database import DataBase
 
 class Trade(lib.Event, DataBase):
     def __init__(self, strategy,  id, store=True, riskClosePips=None, order=None):
@@ -14,7 +14,7 @@ class Trade(lib.Event, DataBase):
 
         # print("Trade - {0}, {1}, {2}".format(id, self.pair, self.strategy_name))
 
-        self.id             = id
+        self.id = id
 
         self.time       = datetime.datetime.now(tz=pytz.utc)
         self.entry_time = lib.helpers.datetimeToRfc3339(self.time)
@@ -28,21 +28,13 @@ class Trade(lib.Event, DataBase):
         self.minute     = self.time.minute
         self.second     = self.time.second
 
-        self.side           = None
-        self.entry_price    = None
-        self.exit_price     = None
+        self.side = self.entry_price = self.exit_price = self.takeProfit = None
+        self.stopLoss = self.trailingStop = self.max_profit_pips         = None
+        self.min_profit_pips = self.time_since_order                     = None
 
-        self.units          = 0
-        self.takeProfit     = None
-        self.stopLoss       = None
-        self.trailingStop   = None
-
-        self.max_profit_pips  = None
-        self.min_profit_pips  = None
-
+        self.units = 0
         self.risk_remove_pips = riskClosePips
 
-        self.time_since_order = None
         if order:
             self.time_since_order = int((self.time - self.order.time).total_seconds())
 
@@ -56,7 +48,7 @@ class Trade(lib.Event, DataBase):
 
     def tick(self, candle=None, data=None):
         if self.risk_remove_pips:
-            self.removeRisk()
+            self.remove_risk()
 
         profit = self.profitPips
         if self.max_profit_pips == None or profit > self.max_profit_pips:
@@ -65,7 +57,7 @@ class Trade(lib.Event, DataBase):
         if self.min_profit_pips == None or profit < self.min_profit_pips:
             self.min_profit_pips = profit
 
-    def removeRisk(self):
+    def remove_risk(self):
         profit_pips = self.profitPips
         if profit_pips > self.risk_remove_pips:
             if not self.stopLoss:
@@ -91,10 +83,6 @@ class Trade(lib.Event, DataBase):
             self.trailingStop = details['trailingAmount']
 
     def close(self):
-        # dEvent = {'id': 10106013523, 'price': 1.10585, 'profit': 0.0484,
-        #     'side': 'sell', 'time': '2016-02-08T14:00:04.000000Z',
-        #     'instrument': 'EUR_CHF'}
-
         dEvent = self.con.close_trade(self.id)
 
         self.profit_total = dEvent['profit']
@@ -154,11 +142,6 @@ class Trade(lib.Event, DataBase):
                 self.closeEvent()
 
     def stopLossFilled(self, dTrade):
-        # dTrade = {'price': 0.98696, 'id': 10106644892, 'accountId': 3134965,
-        #     'time': '2016-02-08T19:51:21.000000Z', 'units': 445, 'side': 'sell',
-        #     'interest': 0.0003, 'type': 'STOP_LOSS_FILLED',
-        #     'instrument': 'AUD_CAD', 'tradeId': 10106562944, 'pl': -0.1397,
-        #     'accountBalance': 999.8677}
         self.exit_price = dTrade['price']
         self.profit_total = dTrade['pl']
         self.profit_pips = self.profitPips
@@ -166,11 +149,6 @@ class Trade(lib.Event, DataBase):
         self.exit()
 
     def takeProfitFilled(self, dTrade):
-        # dTrade = {'price': 1.44364, 'id': 10106658544, 'accountId': 3134965,
-        #     'time': '2016-02-08T19:58:53.000000Z', 'units': 319, 'side': 'sell',
-        #     'interest': -0.0001, 'type': 'TAKE_PROFIT_FILLED',
-        #     'instrument': 'GBP_USD', 'tradeId': 10106523622, 'pl': 0.4978,
-        #     'accountBalance': 1000.3654}}
         self.exit_price = dTrade['price']
         self.profit_total = dTrade['pl']
         self.profit_pips = self.profitPips
@@ -178,11 +156,6 @@ class Trade(lib.Event, DataBase):
         self.exit()
 
     def trailingStopFilled(self, dTrade):
-        # dTrade = {'pl': 0.1907, 'interest': -0.0007, 'side': 'sell',
-            # 'tradeId': 10111501729, 'instrument': 'USD_CAD',
-            # 'time': '2016-02-11T05:43:51.000000Z', 'price': 1.39507,
-            # 'units': 1581, 'id': 10111526061, 'accountBalance': 1003.2352,
-            # 'accountId': 4473676, 'type': 'TRAILING_STOP_FILLED'}}
         self.exit_price = dTrade['price']
         self.profit_total = dTrade['pl']
         self.profit_pips = self.profitPips

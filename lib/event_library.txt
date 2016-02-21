@@ -1,0 +1,31 @@
+Trade close event
+-----------
+{'id': 10106013523, 'price': 1.10585, 'profit': 0.0484,
+         'side': 'sell', 'time': '2016-02-08T14:00:04.000000Z',
+         'instrument': 'EUR_CHF'}
+
+
+Trade SL filled
+---------------
+{'price': 0.98696, 'id': 10106644892, 'accountId': 3134965,
+         'time': '2016-02-08T19:51:21.000000Z', 'units': 445, 'side': 'sell',
+         'interest': 0.0003, 'type': 'STOP_LOSS_FILLED',
+         'instrument': 'AUD_CAD', 'tradeId': 10106562944, 'pl': -0.1397,
+         'accountBalance': 999.8677}
+
+
+Trade TP filled
+---------------
+{'price': 1.44364, 'id': 10106658544, 'accountId': 3134965,
+    'time': '2016-02-08T19:58:53.000000Z', 'units': 319, 'side': 'sell',
+    'interest': -0.0001, 'type': 'TAKE_PROFIT_FILLED',
+    'instrument': 'GBP_USD', 'tradeId': 10106523622, 'pl': 0.4978,
+    'accountBalance': 1000.3654}}
+
+Trade TS filled
+---------------
+dTrade = {'pl': 0.1907, 'interest': -0.0007, 'side': 'sell',
+    'tradeId': 10111501729, 'instrument': 'USD_CAD',
+    'time': '2016-02-11T05:43:51.000000Z', 'price': 1.39507,
+    'units': 1581, 'id': 10111526061, 'accountBalance': 1003.2352,
+    'accountId': 4473676, 'type': 'TRAILING_STOP_FILLED'}}

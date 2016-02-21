@@ -5,7 +5,6 @@ import time
 class Stream:
     def stream_ticks(self):
         self.unprocessed_ticks = 0
-        self.tickDB = sqlite3.connect('database/db.db')
         for tick in self.connections['t1'].stream_ticks(instruments=",".join(self.active_instruments())):
             if 'tick' in tick:
                 self.unprocessed_ticks += 1
@@ -14,26 +13,16 @@ class Stream:
                     # use threading for when a lot of ticks come at once
                     threading.Thread(target=instruments.next().tick, kwargs={'tick':tick['tick']}).start()
                 self.unprocessed_ticks -= 1
-                # self.writeTick2DB(tick['tick'])
 
                 if self.unprocessed_ticks > 10:
                     print('ticks backlog alert')
-
-    def writeTick2DB(self, tick):
-        try:
-            tick = (tick['instrument'], tick['time'], tick['bid'], tick['ask'])
-            c = self.tickDB.cursor()
-            c.execute("INSERT INTO `ticks`(instrument, time, bid, ask) VALUES \
-                (?,?,?,?)", tick)
-            self.tickDB.commit()
-        except:
-            pass
 
     def eventStream(self, con):
         for event in con.stream_events():
             if 'transaction' in event:
                 ev = event['transaction']
                 if ev['type'] == 'ORDER_FILLED':
+                    print({1:ev})
                     time.sleep(1)
                     order = self.orders().withID(ev['orderId']).get()
                     if order.hasNext():

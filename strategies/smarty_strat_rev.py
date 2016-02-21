@@ -43,7 +43,7 @@ class SmartyStratRev(Strategy, lib.Event):
 
         if side:
             amount = self.account.get_balance(self.thread) * self.instrument.eurToQuote() * self.risk
-            self.createOrder(side, amount, entry=entry, stopLoss=sl, takeProfit=tp, expiry=180, type="marketIfTouched")
+            self.createOrder(side, amount, entry=entry, stopLoss=sl, takeProfit=tp, expiry=180, type="limit")
 
     def find_market_direction(self, candle):
         pip = self.instrument.pip

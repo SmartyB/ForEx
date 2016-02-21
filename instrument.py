@@ -3,7 +3,7 @@ import math, sqlite3
 import lib, position, selector
 from chart.chart import Chart
 
-import database.database
+import lib.database
 
 class Instrument(lib.Event):
     def __init__(self, account, instrument):
@@ -90,7 +90,7 @@ class Instrument(lib.Event):
         Usefull in production when the connection interupts.
         Usefull in development for obvious reasons
         '''
-        db = database.database.DataBase()
+        db = lib.database.DataBase()
 
         # get all open trades for this instrument
         open_trades = []
@@ -123,7 +123,7 @@ class Instrument(lib.Event):
         Usefull in production when the connection interupts.
         Usefull in development for obvious reasons
         '''
-        db = database.database.DataBase()
+        db = lib.database.DataBase()
 
         # get all open orders
         open_orders = []

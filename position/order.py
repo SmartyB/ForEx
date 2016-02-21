@@ -1,7 +1,7 @@
 import lib
 import datetime, pytz
 from position.trade import Trade
-from database.database import DataBase
+from lib.database import DataBase
 
 class Order(lib.Event, DataBase):
     def __init__(self, strategy, id, riskClosePips=None):
@@ -9,7 +9,6 @@ class Order(lib.Event, DataBase):
         self.strategy       = strategy
         self.strategy_name  = strategy.displayName
         self.con            = self.strategy.con
-
 
         self.instrument = self.strategy.instrument
         self.pair       = self.instrument.pair
@@ -25,7 +24,7 @@ class Order(lib.Event, DataBase):
         self.minute     = self.time.minute
         self.second     = self.time.second
 
-        self.type = 'stop'
+        # self.type = 'stop'
         self.risk_remove_pips   = riskClosePips
 
         self.entry_price = self.stopLoss = self.takeProfit = self.trailingStop = None
@@ -101,7 +100,7 @@ class Order(lib.Event, DataBase):
             order = lib.oanda.Order(**{
                 'instrument'    : self.instrument.pair,
                 'side'          : self.side,
-                'type'          : self.type,
+                # 'type'          : self.type,
                 'units'         : self.units,
                 'price'         : self.entry_price,
                 'stopLoss'      : self.stopLoss,

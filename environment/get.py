@@ -12,21 +12,18 @@ env = None
 def get_trading_plan():
     if env is None:
         raise EnvironmentNotSetError
-    print(env)
     if env == 0: return environment.trading_plans.develop.plan
     if env == 1: return environment.trading_plans.testing.plan
 
 def get_connections():
     if env is None:
         raise EnvironmentNotSetError
-    print(env)
     if env == 0: return environment.connections.develop.connections
     if env == 1: return environment.connections.testing.connections
 
 def get_db_spec():
     if env is None:
         raise EnvironmentNotSetError
-    print(env)
     if env == 0: return environment.db_spec.develop
     if env == 1: return environment.db_spec.testing
 
