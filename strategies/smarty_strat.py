@@ -9,6 +9,7 @@ class SmartyStrat(Strategy, lib.Event):
         Strategy.__init__(self, instrument, kwargs)
 
         self.market_direction = None
+        self.__processing = False
 
         self.chart          = self.instrument.chart(self.chart)
         self.ema_gradient   = self.chart.indicator(indicators.EmaGradient,
@@ -17,15 +18,20 @@ class SmartyStrat(Strategy, lib.Event):
         self.ema_gradient.on('Ema_Gradient-Set', self.execute_strategy)
 
     def execute_strategy(self, candle):
+        self.processing = True
         self.find_market_direction(candle)
 
         if self.orders().get().length() > 0:
+            self.processing = False
             return
         if self.trades().get().length() > 0:
+            self.processing = False
             return
 
         if self.market_direction:
             self.create_order()
+
+        self.processing = False
 
     def create_order(self):
         side = None
@@ -42,7 +48,6 @@ class SmartyStrat(Strategy, lib.Event):
             sl = entry + self.sl_pips * pip
 
         if side:
-            print('createing order')
             amount = self.account.get_balance(self.thread) * self.instrument.eurToQuote() * self.risk
             self.createOrder(side, amount, entry=entry, stopLoss=sl, takeProfit=tp, expiry=180, type="limit")
 

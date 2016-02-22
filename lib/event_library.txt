@@ -24,8 +24,17 @@ Trade TP filled
 
 Trade TS filled
 ---------------
-dTrade = {'pl': 0.1907, 'interest': -0.0007, 'side': 'sell',
+{'pl': 0.1907, 'interest': -0.0007, 'side': 'sell',
     'tradeId': 10111501729, 'instrument': 'USD_CAD',
     'time': '2016-02-11T05:43:51.000000Z', 'price': 1.39507,
     'units': 1581, 'id': 10111526061, 'accountBalance': 1003.2352,
     'accountId': 4473676, 'type': 'TRAILING_STOP_FILLED'}}
+
+
+Order filled
+------------
+{'tradeOpened': {'id': 10124917982, 'units': 1099}, 'stopLossPrice': 1.40663,
+  	'id': 10124917982, 'orderId': 10124917807, 'price': 1.4086,
+    'takeProfitPrice': 1.41163, 'accountBalance': 996.5122, 'accountId': 4473676,
+    'units': 1099, 'time': '2016-02-22T13:00:14.000000Z', 'interest': 0, 'pl': 0,
+    'instrument': 'GBP_USD', 'type': 'ORDER_FILLED', 'side': 'buy'}

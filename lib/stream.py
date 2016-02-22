@@ -22,29 +22,34 @@ class Stream:
             if 'transaction' in event:
                 ev = event['transaction']
                 if ev['type'] == 'ORDER_FILLED':
-                    print({1:ev})
                     time.sleep(1)
                     order = self.orders().withID(ev['orderId']).get()
                     if order.hasNext():
                         order.next().fill(ev)
                 elif ev['type'] == 'ORDER_UPDATE':
-                    pass
+                    print({1:ev})
+                    # pass
                 elif ev['type'] == 'ORDER_CANCEL':
+                    print({2:ev})
                     order = self.orders().withID(ev['orderId']).get()
                     if order.hasNext():
                         order.next().closeEvent()
                 elif ev['type'] == 'TRADE_CLOSE':
+                    print({3:ev})
                     trade = self.trades().withID(ev['id']).get()
                     if trade.hasNext():
                         trade.next().closeEvent()
                 elif ev['type'] == 'STOP_LOSS_FILLED':
+                    print({4:ev})
                     trade = self.trades().withID(ev['tradeId']).get()
                     if trade.hasNext():
                         trade.next().stopLossFilled(ev)
                 elif ev['type'] == 'MARKET_ORDER_CREATE':
-                    pass
+                    print({5:ev})
+                    # pass
                 elif ev['type'] == 'MARKET_IF_TOUCHED_ORDER_CREATE':
-                    pass
+                    print({6:ev})
+                    # pass
                 elif ev['type'] == "TAKE_PROFIT_FILLED":
                     trade = self.trades().withID(ev['tradeId']).get()
                     if trade.hasNext():
@@ -54,14 +59,18 @@ class Stream:
                 elif ev['type'] == "DAILY_INTEREST":
                     pass
                 elif ev['type'] == 'LIMIT_ORDER_CREATE':
-                    pass
+                    print({7:ev})
+                    # pass
                 elif ev['type'] == 'STOP_ORDER_CREATE':
-                    pass
+                    print({8:ev})
+                    # pass
                 elif ev['type'] == "TRAILING_STOP_FILLED":
+                    print({9:ev})
                     trade = self.trades().withID(ev['tradeId']).get()
                     if trade.hasNext():
                         trade.next().trailingStopFilled(ev)
                 elif ev['type'] == "TRADE_UPDATE":
+                    print({10:ev})
                     # trade = self.trades().withID(ev['tradeId']).get()
                     pass
                     # print(ev)

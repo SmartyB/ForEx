@@ -17,15 +17,20 @@ class SmartyStratRev(Strategy, lib.Event):
         self.ema_gradient.on('Ema_Gradient-Set', self.execute_strategy)
 
     def execute_strategy(self, candle):
+        self.processing = True
         self.find_market_direction(candle)
 
         if self.orders().get().length() > 0:
+            self.processing = False
             return
         if self.trades().get().length() > 0:
+            self.processing = False
             return
 
         if self.market_direction:
             self.create_order()
+
+        self.processing = False
 
     def create_order(self):
         side = None
