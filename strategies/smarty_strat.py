@@ -42,6 +42,7 @@ class SmartyStrat(Strategy, lib.Event):
             sl = entry + self.sl_pips * pip
 
         if side:
+            print('createing order')
             amount = self.account.get_balance(self.thread) * self.instrument.eurToQuote() * self.risk
             self.createOrder(side, amount, entry=entry, stopLoss=sl, takeProfit=tp, expiry=180, type="limit")
 
@@ -59,6 +60,6 @@ class SmartyStrat(Strategy, lib.Event):
                 self.closeAll()
 
         if not self.market_direction == new_dir:
-            print("{0} - {1} - {2}".format(self.pair, new_dir, lib.helpers.epochToRfc3339_2(candle.time)))
+            # print("{0} - {1} - {2}".format(self.pair, new_dir, lib.helpers.epochToRfc3339_2(candle.time)))
             self.market_direction = new_dir
             self.event('smartystrat-new_direction', self)

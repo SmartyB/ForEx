@@ -59,6 +59,6 @@ class SmartyStratRev(Strategy, lib.Event):
                 self.closeAll()
 
         if not self.market_direction == new_dir:
-            print("{0} - {1} - {2}".format(self.pair, new_dir, lib.helpers.epochToRfc3339_2(candle.time)))
+            # print("{0} - {1} - {2}".format(self.pair, new_dir, lib.helpers.epochToRfc3339_2(candle.time)))
             self.market_direction = new_dir
             self.event('smartystrat-new_direction', self)

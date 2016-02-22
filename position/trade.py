@@ -38,7 +38,7 @@ class Trade(lib.Event, DataBase):
         if order:
             self.time_since_order = int((self.time - self.order.time).total_seconds())
 
-        self.pullDetails()
+        self.pull_details()
         self.open = True
 
         self.load_from_db()
@@ -67,7 +67,7 @@ class Trade(lib.Event, DataBase):
             elif self.side == "sell" and self.entry_price < self.stopLoss:
                 self.update(stopLoss=self.entry_price)
 
-    def pullDetails(self):
+    def pull_details(self):
         try:
             details = self.con.get_trade(self.id)
         except:
@@ -83,12 +83,14 @@ class Trade(lib.Event, DataBase):
             self.trailingStop = details['trailingAmount']
 
     def close(self):
-        dEvent = self.con.close_trade(self.id)
+        try:
+            dEvent = self.con.close_trade(self.id)
+            self.profit_total = dEvent['profit']
+            self.exit_price = dEvent['price']
+            self.exit()
+        except:
+            print("Closing Trade error - Trade not found")
 
-        self.profit_total = dEvent['profit']
-        self.exit_price = dEvent['price']
-
-        self.exit()
 
     def exit(self):
         self.open = False

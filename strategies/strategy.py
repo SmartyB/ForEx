@@ -4,11 +4,12 @@ import threading, time, datetime, pytz
 class Strategy(lib.Event, lib.Scheduler):
     def __init__(self, instrument, kwargs):
         self.__dict__.update(kwargs)
+
         self.account    = instrument.account
         self.instrument = instrument
 
         lib.Scheduler.__init__(self)
-
+        
         self.con         = self.account.connections[self.thread]
         self.displayName = self.parseDisplayName(self.__class__, self.__dict__)
 
@@ -63,6 +64,9 @@ class Strategy(lib.Event, lib.Scheduler):
         if not self.order_news_allowed():
             return False
 
+        pair    = self.instrument.pair
+        units   = int(round(units))
+
         if stopLoss:
             stopLoss = round(stopLoss, self.instrument.precision)
         if takeProfit:
@@ -71,10 +75,10 @@ class Strategy(lib.Event, lib.Scheduler):
             trailingStop = round(trailingStop, self.instrument.precision)
 
         dTrade = {
-            'instrument'    : self.instrument.pair,
+            'instrument'    : pair,
             'side'          : side,
             'type'          : 'market',
-            'units'         : int(round(units)),
+            'units'         : units,
             'stopLoss'      : stopLoss,
             'takeProfit'    : takeProfit,
             'trailingStop'  : trailingStop,

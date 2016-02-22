@@ -10,21 +10,13 @@ class Candle(Event):
         self.instrument   = chart.instrument
         self.account      = self.instrument.account
 
-        self.lowAsk     = None
-        self.lowBid     = None
-        self.highAsk    = None
-        self.highBid    = None
-        self.openAsk    = None
-        self.openBid    = None
-        self.closeAsk   = None
-        self.closeBid   = None
-        self.strength   = None
+        self.lowAsk  = self.lowBid  = self.highAsk  = self.highBid  = None
+        self.openAsk = self.openBid = self.closeAsk = self.closeBid = None
+        self.strength = self.lastTick = None
 
-        self.indicators = {}
-
-        self.complete   = False
-        self.lastTick = None
         self.time       = time
+        self.complete   = False
+        self.indicators = {}
 
         if sendEvents:
             self.chart.event("Candle-Open", self)
@@ -35,31 +27,32 @@ class Candle(Event):
             threading.Timer(closeTime, self.close).start()
 
     def close(self):
+        '''
+        Close the candle and send events
+        '''
         self.complete = True
         self.chart.event("Candle-Close", self)
         self.instrument.event("Candle-Close", self)
 
     def tick(self, tick):
-        self.lastTick = tick
+        '''
+        Tick on the candle. Set new low and high values.
+        '''
         ask = tick['ask']
         bid = tick['bid']
+        self.lastTick = tick
 
         if self.openBid == None:
             self.openAsk = ask
             self.openBid = bid
-
-        if self.lowAsk == None or ask < self.lowAsk:
-            self.lowAsk = ask
-        if self.lowBid == None or bid < self.lowBid:
-            self.lowBid = bid
-        if self.highAsk == None or ask > self.highAsk:
-            self.highAsk = ask
-        if self.highBid == None or bid > self.highBid:
-            self.highBid = bid
-
         self.closeBid = bid
         self.closeAsk = ask
         self.strength = self.closeBid - self.openBid
+
+        self.lowAsk  = min(self.lowAsk, ask)
+        self.lowBid  = min(self.lowBid, bid)
+        self.highAsk = max(self.highAsk, ask)
+        self.highBid = max(self.highBid, bid)
 
         self.chart.event("Candle-Tick", self)
         self.instrument.event("Candle-Tick", self)
@@ -67,6 +60,9 @@ class Candle(Event):
         return self
 
     def addIndicator(self, key, indicator):
+        '''
+        Add a new indicator
+        '''
         self.indicators[key] = indicator
 
     def __str__(self):

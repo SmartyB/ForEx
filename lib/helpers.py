@@ -10,6 +10,26 @@ import sqlite3
 
 import lib.scheduler as scheduler
 
+def min(a,b):
+    if a == None and b == None:
+        return None
+
+    if a == None: return b
+    if b == None: return a
+    if b < a: return b
+    if a < b: return a
+    return a
+
+def max(a,b):
+    if a == None and b == None:
+        return None
+
+    if a == None: return b
+    if b == None: return a
+    if b > a: return b
+    if a > b: return a
+    return a
+
 def unixRepr(unix):
     string = ''
     time = dt.datetime.fromtimestamp(unix, tz=pytz.utc)
@@ -70,8 +90,8 @@ def printDirs(account):
 def tick(a):
     ins = a.instruments().get().next()
     chart = ins.chart('m5')
-    time = chart.candles().get().last().time + 305
-    time = lib.helpers.epochToRfc3339(time).replace('+00','').replace(':00Z', '.00Z')
-    ins.tick({'bid':1, 'ask':2, 'time': time})
+    t = time.time()
+    t = lib.helpers.epochToRfc3339_2(t).replace('+00','').replace(':00Z', '.00Z')
+    ins.tick({'bid':1, 'ask':2, 'time': t})
 
 clear = lambda: os.system('cls')
