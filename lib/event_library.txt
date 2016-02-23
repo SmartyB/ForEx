@@ -1,4 +1,4 @@
-Trade close event
+Trade close manual event
 -----------
 {'id': 10106013523, 'price': 1.10585, 'profit': 0.0484,
          'side': 'sell', 'time': '2016-02-08T14:00:04.000000Z',
@@ -38,3 +38,15 @@ Order filled
     'takeProfitPrice': 1.41163, 'accountBalance': 996.5122, 'accountId': 4473676,
     'units': 1099, 'time': '2016-02-22T13:00:14.000000Z', 'interest': 0, 'pl': 0,
     'instrument': 'GBP_USD', 'type': 'ORDER_FILLED', 'side': 'buy'}
+
+Trade closed
+------------
+{'price': 1.09738, 'instrument': 'EUR_CHF', 'time': '2016-02-23T07:45:06.000000Z',
+  'accountId': 4473676, 'units': 1084, 'tradeId': 10126293019, 'interest': 0,
+  'id': 10126313831, 'pl': -0.3951, 'type': 'TRADE_CLOSE', 'accountBalance': 987.0474, 'side': 'sell'}
+
+Order Canceled
+--------------
+{'reason': 'ORDER_FILLED', 'time': '2016-02-23T08:00:49.000000Z',
+  'type': 'ORDER_CANCEL', 'orderId': 10126327287, 'accountId': 3134965,
+  'id': 10126328512}

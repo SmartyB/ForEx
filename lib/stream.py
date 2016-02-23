@@ -30,17 +30,14 @@ class Stream:
                     print({1:ev})
                     # pass
                 elif ev['type'] == 'ORDER_CANCEL':
-                    print({2:ev})
                     order = self.orders().withID(ev['orderId']).get()
                     if order.hasNext():
                         order.next().closeEvent()
                 elif ev['type'] == 'TRADE_CLOSE':
-                    print({3:ev})
                     trade = self.trades().withID(ev['id']).get()
                     if trade.hasNext():
                         trade.next().closeEvent()
                 elif ev['type'] == 'STOP_LOSS_FILLED':
-                    print({4:ev})
                     trade = self.trades().withID(ev['tradeId']).get()
                     if trade.hasNext():
                         trade.next().stopLossFilled(ev)
@@ -59,8 +56,7 @@ class Stream:
                 elif ev['type'] == "DAILY_INTEREST":
                     pass
                 elif ev['type'] == 'LIMIT_ORDER_CREATE':
-                    print({7:ev})
-                    # pass
+                    pass
                 elif ev['type'] == 'STOP_ORDER_CREATE':
                     print({8:ev})
                     # pass
