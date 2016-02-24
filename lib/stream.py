@@ -66,7 +66,6 @@ class Stream:
                     if trade.hasNext():
                         trade.next().trailingStopFilled(ev)
                 elif ev['type'] == "TRADE_UPDATE":
-                    print({10:ev})
                     # trade = self.trades().withID(ev['tradeId']).get()
                     pass
                     # print(ev)

@@ -1,5 +1,5 @@
 # dependancies
-import math, sqlite3
+import math, sqlite3, pyoanda
 
 import lib, position, selector, chart
 
@@ -168,7 +168,7 @@ class Instrument(lib.Event):
         '''
         try:
             rate = self.con.get_prices(instruments="EUR_"+self.quote, stream=False)
-        except BadRequest:
+        except pyoanda.BadRequest:
             rate = self.con.get_prices(instruments=self.quote+"_EUR", stream=False)
         return float(rate['prices'][0]['bid'])
 
