@@ -28,7 +28,7 @@ plan = [
                     ],
                 },
                 {
-                    'name'                  : strategies.SmartyStratRev,
+                    'name'                  : strategies.SmartyStratRR,
                     'thread'                : 't2',
                     'store'                 : True,
                     'risk'                  : 1,

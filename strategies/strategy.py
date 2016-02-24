@@ -9,7 +9,7 @@ class Strategy(lib.Event, lib.Scheduler):
         self.instrument = instrument
 
         lib.Scheduler.__init__(self)
-        
+
         self.con         = self.account.connections[self.thread]
         self.displayName = self.parseDisplayName(self.__class__, self.__dict__)
 
@@ -171,8 +171,10 @@ class Strategy(lib.Event, lib.Scheduler):
             'TradimoTS'       : [],
             'TradimoRR'       : [],
             'TradimoRev'      : [],
-            'SmartyStrat'     : [],
+            'SmartyStrat'     : ['set_direction_limit', 'remove_direction_limit', 'tp_pips', 'sl_pips'],
             'SmartyStratRev'  : [],
+            'SmartyStratRR'   : ['set_direction_limit', 'remove_direction_limit', 'tp_pips', 'sl_pips'],
+
         }
 
         dispName = strategy.__name__

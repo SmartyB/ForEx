@@ -50,3 +50,10 @@ Order Canceled
 {'reason': 'ORDER_FILLED', 'time': '2016-02-23T08:00:49.000000Z',
   'type': 'ORDER_CANCEL', 'orderId': 10126327287, 'accountId': 3134965,
   'id': 10126328512}
+
+Limit Order create
+------------------
+{'reason': 'CLIENT_REQUEST', 'price': 1.09725, 'instrument': 'EUR_CHF',
+  'time': '2016-02-23T08:00:08.000000Z', 'takeProfitPrice': 1.10025,
+  'stopLossPrice': 1.09525, 'accountId': 4473676, 'expiry': '2016-02-23T08:03:02.000000Z',
+  'units': 1085, 'id': 10126327311, 'type': 'LIMIT_ORDER_CREATE', 'side': 'buy'}
