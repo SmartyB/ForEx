@@ -57,3 +57,9 @@ Limit Order create
   'time': '2016-02-23T08:00:08.000000Z', 'takeProfitPrice': 1.10025,
   'stopLossPrice': 1.09525, 'accountId': 4473676, 'expiry': '2016-02-23T08:03:02.000000Z',
   'units': 1085, 'id': 10126327311, 'type': 'LIMIT_ORDER_CREATE', 'side': 'buy'}
+
+Trade update
+------------
+ {'time': '2016-02-24T09:31:09.000000Z', 'id': 10128101267, 'units': 1072,
+    'takeProfitPrice': 1.39101, 'instrument': 'GBP_USD', 'tradeId': 10128099447,
+    'accountId': 4473676, 'stopLossPrice': 1.39404, 'type': 'TRADE_UPDATE'}
