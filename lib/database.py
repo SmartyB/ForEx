@@ -8,7 +8,7 @@ class DataBase:
             print('Error saving to DB - probably locked')
             return
         try:
-            db_spec = environment.get.get_db_spec()
+            db_spec = environment.env.get_db_spec()
             db_path = db_spec.db_path
             spec    = db_spec.spec
 
@@ -61,7 +61,7 @@ class DataBase:
             self.store_to_db(try_counter=try_counter+1)
 
     def load_from_db(self):
-        db_spec = environment.get.get_db_spec()
+        db_spec = environment.env.get_db_spec()
         db_path = db_spec.db_path
         spec    = db_spec.spec
 
@@ -94,7 +94,7 @@ class DataBase:
             self.__dict__[field] = value
 
     def exists_in_db(self, table, primary_key, primary_value):
-        db_spec = environment.get.get_db_spec()
+        db_spec = environment.env.get_db_spec()
         db_path = db_spec.db_path
         db = sqlite3.connect(db_path)
         c = db.cursor()
@@ -102,7 +102,7 @@ class DataBase:
         return len(c.fetchall()) == 1
 
     def get_from_db(self, table, primary_key, primary_value):
-        db_spec = environment.get.get_db_spec()
+        db_spec = environment.env.get_db_spec()
         db_path = db_spec.db_path
         db = sqlite3.connect(db_path)
         c = db.cursor()
