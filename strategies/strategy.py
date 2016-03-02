@@ -174,6 +174,7 @@ class Strategy(lib.Event, lib.Scheduler):
             'SmartyStrat'     : ['set_direction_limit', 'remove_direction_limit', 'tp_pips', 'sl_pips'],
             'SmartyStratRev'  : [],
             'SmartyStratRR'   : ['set_direction_limit', 'remove_direction_limit', 'tp_pips', 'sl_pips'],
+            'SmartyStratV2'   : ['set_direction_limit', 'remove_direction_limit', 'tp_pips', 'sl_pips'],
 
         }
 

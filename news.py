@@ -68,3 +68,6 @@ class News(Event):
             return c.fetchone()[0]
         except:
             return None
+
+    def __del__(self):
+        self.__timer.cancel()

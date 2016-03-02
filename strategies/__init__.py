@@ -3,7 +3,7 @@
 # from strategies.tradimoRR   import TradimoRR
 # from strategies.tradimoRev   import TradimoRev
 from strategies.smarty_strat import SmartyStrat
-from strategies.smarty_strat_rev import SmartyStratRev
-from strategies.smarty_strat_rr import SmartyStratRR
-
+# from strategies.smarty_strat_rev import SmartyStratRev
+# from strategies.smarty_strat_rr import SmartyStratRR
+from strategies.smarty_strat_v2 import SmartyStratV2
 # from strategies.empty_strat import EmptyStrat

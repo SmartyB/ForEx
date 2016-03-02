@@ -1,6 +1,6 @@
 # dependancies
 import lib, instrument, news, selector
-import environment.get         as env
+import environment.env         as env
 
 import time, threading, sqlite3, os
 
@@ -33,7 +33,7 @@ class Account(lib.Event, lib.Stream):
             threading.Thread(target=self.eventStream, kwargs=kwargs).start()
 
     def stop_trading(self):
-        self.news = None
+        del self.news
 
         # the next line does not seem to free memory, we still need to really
         # delete the instances
@@ -82,6 +82,8 @@ class Account(lib.Event, lib.Stream):
         '''
         try:
             balance = self.connections[thread].get_credentials()['balance']
+            if balance < 980:
+                return 0.
             return float(balance)
         except:
             return 0.

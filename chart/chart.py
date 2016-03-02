@@ -23,6 +23,9 @@ class Chart(Event):
 
         self.__indicators = {}
         self.__candles = []
+
+        self._fully_loaded      = False
+        self._unprocessed_ticks = []
         self.getHistory()
 
     def getHistory(self, numCandles=500):
@@ -40,7 +43,15 @@ class Chart(Event):
         self.instrument.bid = dCandle['closeBid']
         self.instrument.ask = dCandle['closeAsk']
 
+        for tick in self._unprocessed_ticks:
+            self.tick(tick)
+        self._fully_loaded = True
+
     def tick(self, tick):
+        if not self._fully_loaded:
+            self._unprocessed_ticks.append(tick)
+            return
+
         candles = self.candles() \
                     .containsTime(tick['time']) \
                     .get()

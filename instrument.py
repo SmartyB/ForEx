@@ -168,7 +168,7 @@ class Instrument(lib.Event):
         '''
         try:
             rate = self.con.get_prices(instruments="EUR_"+self.quote, stream=False)
-        except pyoanda.BadRequest:
+        except pyoanda.exceptions.BadRequest:
             rate = self.con.get_prices(instruments=self.quote+"_EUR", stream=False)
         return float(rate['prices'][0]['bid'])
 
