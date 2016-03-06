@@ -162,20 +162,10 @@ class Strategy(lib.Event, lib.Scheduler):
     @staticmethod
     def parseDisplayName(strategy, params):
         required = {
-            'DirPredict'      : ['risk', 'tpPips', 'slPips'],
-            'DirPredictRev'   : ['risk','tpPips','slPips'],
-            'EmptyStrat'      : [],
-            'Rejects'         : [],
-            'RejectsRev'      : [],
-            'Tradimo'         : [],
-            'TradimoTS'       : [],
-            'TradimoRR'       : [],
-            'TradimoRev'      : [],
-            'SmartyStrat'     : ['set_direction_limit', 'remove_direction_limit', 'tp_pips', 'sl_pips'],
-            'SmartyStratRev'  : [],
-            'SmartyStratRR'   : ['set_direction_limit', 'remove_direction_limit', 'tp_pips', 'sl_pips'],
-            'SmartyStratV2'   : ['set_direction_limit', 'remove_direction_limit', 'tp_pips', 'sl_pips'],
-
+            'SmartyStrat'        : ['set_direction_limit', 'remove_direction_limit', 'tp_pips', 'sl_pips'],
+            'SmartyStratV2'      : ['set_direction_limit', 'remove_direction_limit', 'tp_pips', 'sl_pips'],
+            'SmartyStratV3'      : ['set_direction_limit', 'remove_direction_limit', 'tp_pips', 'sl_pips'],
+            'CleanlinessStrat'   : [],
         }
 
         dispName = strategy.__name__

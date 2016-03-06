@@ -16,6 +16,7 @@ class Indicator(Event):
             'EMA'           : ['period'],
             'Pivots'        : [],
             'EmaGradient'       : ['period'],
+            'Cleanliness'   : [],
         }
         optional = {
             'Fractals'      : [],
@@ -24,6 +25,7 @@ class Indicator(Event):
             'EMA'           : [],
             'Pivots'        : [],
             'EmaGradient'       : [],
+            'Cleanliness'   : [],
 
         }
 
