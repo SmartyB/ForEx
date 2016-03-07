@@ -38,9 +38,9 @@ class SmartyStratV3(Strategy, lib.Event):
         if self.trades().get().length() > 0 or self.orders().get().length() > 0:
             return
 
-        # we don't want to trade if a recent trade was losing 
+        # we don't want to trade if a recent trade was losing
         trades = self.trades(onlyOpen=False).get()
-        if trades.hasNext() and last_trade.last().profitPips < 0:
+        if trades.hasNext():
             last_trade = trades.last()
             time_since_trade = (datetime.datetime.now(tz=pytz.utc) - last_trade.exit_time).total_seconds()
             if last_trade.profitPips < 0 and time_since_trade < 7200:
