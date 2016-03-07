@@ -17,8 +17,9 @@ class Trade(lib.Event, DataBase):
         self.id = id
 
         self.time       = datetime.datetime.now(tz=pytz.utc)
-        self.entry_time = lib.helpers.datetimeToRfc3339(self.time)
-        self.exit_time  = None
+        self.entry_time = self.time
+        self.str_entry_time = lib.helpers.datetimeToRfc3339(self.entry_time)
+        self.exit_time  = self.str_exit_time = None
 
         self.year       = self.time.year
         self.month      = self.time.month
@@ -96,8 +97,8 @@ class Trade(lib.Event, DataBase):
         self.open = False
         self.profit_pips = self.profitPips
 
-        time = datetime.datetime.now(tz=pytz.utc)
-        self.exit_time = lib.helpers.datetimeToRfc3339(time)
+        self.exit_time = datetime.datetime.now(tz=pytz.utc)
+        self.str_exit_time = lib.helpers.datetimeToRfc3339(self.exit_time)
 
         self.store_to_db()
         self.instrument.removeListener(self.tickListener)
