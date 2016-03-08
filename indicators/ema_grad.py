@@ -12,10 +12,10 @@ class EmaGradient(Indicator, lib.Event):
         self.ema = self.chart.indicator(indicators.EMA, {'period':self.period})
         self.init_ema_gradient()
 
-        self.chart.on("Candle-Close", target=self.calc_ema_grad)
+        self.chart.on("Candle-Tick", target=self.calc_ema_grad, priority=21)
 
     def init_ema_gradient(self):
-        candles = self.chart.candles().notFirst(self.period+1).onlyClosed().get()
+        candles = self.chart.candles().notFirst(self.period+1).get()
 
         while candles.hasNext():
             candle = candles.next()

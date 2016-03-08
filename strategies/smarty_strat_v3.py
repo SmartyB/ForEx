@@ -3,22 +3,23 @@ from strategies.strategy import Strategy
 from lib.definitions import *
 
 import time, datetime, pytz
+import threading
 
 class SmartyStratV3(Strategy, lib.Event):
     def __init__(self, instrument, kwargs):
         Strategy.__init__(self, instrument, kwargs)
 
         self.market_direction = None
-        self.__processing = False
 
         self.chart          = self.instrument.chart(self.chart)
         self.ema_gradient   = self.chart.indicator(indicators.EmaGradient,
                             {'period': self.ema_period})
 
-        self.ema_gradient.on('Ema_Gradient-Set', self.execute_strategy)
 
-    def execute_strategy(self, candle):
-        self.processing = True
+        threading.Thread(target=self.execute_strategy).start()
+
+    def execute_strategy(self):
+        candle = self.chart.candles().get().last()
         self.find_market_direction(candle)
 
         if self.orders().get().length() > 0:
@@ -31,19 +32,16 @@ class SmartyStratV3(Strategy, lib.Event):
         if self.market_direction:
             self.create_order()
 
-        self.processing = False
+        threading.Timer(60, self.execute_strategy).start()
 
     def create_order(self):
-        # we wan't only one open trade per unit time
-        if self.trades().get().length() > 0 or self.orders().get().length() > 0:
-            return
-
         # we don't want to trade if a recent trade was losing
         trades = self.trades(onlyOpen=False).get()
         if trades.hasNext():
             last_trade = trades.last()
             time_since_trade = (datetime.datetime.now(tz=pytz.utc) - last_trade.exit_time).total_seconds()
             if last_trade.profitPips < 0 and time_since_trade < 7200:
+                print('trade blocked by previous losing trde')
                 return
 
         side = None
@@ -73,10 +71,6 @@ class SmartyStratV3(Strategy, lib.Event):
             elif ema_gradient < 0: new_dir = 'down'
         if abs(ema_gradient) < self.remove_direction_limit * pip:
             new_dir = None
-            if self.market_direction:
-                self.closeAll()
+            self.closeAll()
 
-        if not self.market_direction == new_dir:
-            # print("{0} - {1} - {2}".format(self.pair, new_dir, lib.helpers.epochToRfc3339_2(candle.time)))
-            self.market_direction = new_dir
-            self.event('smartystrat-new_direction', self)
+        self.market_direction = new_dir
